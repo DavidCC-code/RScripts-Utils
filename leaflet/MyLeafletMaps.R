@@ -42,3 +42,20 @@ CSSBCN %>%
   addTiles() %>%
   addMarkers(icon = BCNicon , popup = paste(CSSBCN$EQUIPAMENT, "<br>", CSSBCN$TELEFON_NUM))
 
+## Clusters  
+##   - dades accidents de transit
+
+url <- "https://opendata-ajuntament.barcelona.cat/data/dataset/834b8920-0685-4e16-8e20-faf13645f4f3/resource/4bf617c6-7fe0-4e6a-b010-1c6fef544a31/download/2019_accidents_tipus_gu_bcn_.csv"
+destFile <- "./accidents2019.csv"
+download.file(url, destFile)
+
+ACC2019 <- read.csv(destFile)
+
+names(ACC2019)[names(ACC2019)=="Latitud"] <- "latitude"
+names(ACC2019)[names(ACC2019)=="Longitud"] <- "longitude"
+
+ACC2019 %>%
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(popup = ACC2019$Descripcio_tipus_accident)
+
